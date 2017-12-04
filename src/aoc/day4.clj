@@ -15,8 +15,7 @@
 ; => 337
 
 (defn anagram? [word1 word2]
-  (contains? (set (map (partial apply str) (combo/permutations word2)))
-             word1))
+  (= (sort word1) (sort word2)))
 
 (defn contains-anagrams? [password]
   (let [words (str/split password #" ")]
