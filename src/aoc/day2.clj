@@ -1,5 +1,6 @@
 (ns aoc.day2
-  (:require [aoc.core :as c]))
+  (:require [aoc.core :as c]
+            [clojure.math.combinatorics :as combo]))
 
 (defn line-checksum [line]
   (- (apply max line) (apply min line)))
@@ -19,11 +20,9 @@
 (defn evenly-divisible? [[x y]] (== (mod x y) 0))
 
 (defn line-division [line]
-  (let [pairs (filter #(not= (first %) (second %))
-                      (c/cartesian line line))
-        reversed-pairs (map reverse pairs)
-        all (concat pairs reversed-pairs)
-        evenly-divisible (first (filter evenly-divisible? all))]
+  (let [pairs (combo/combinations line 2)
+        all (concat pairs (map reverse pairs))
+        evenly-divisible (c/find-first evenly-divisible? all)]
     (/ (first evenly-divisible) (second evenly-divisible))))
 
 ;; Result - part 2:
